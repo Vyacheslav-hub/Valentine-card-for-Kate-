@@ -7,12 +7,19 @@ function checkHearts() {
     const isLeftOpen = left.classList.contains('is-open');
     const isRightOpen = right.classList.contains('is-open');
 
+    // 1. Если обе створки открыты — включаем или продолжаем играть
     if (isLeftOpen && isRightOpen) {
-        audio.play().catch(e => {
-            console.log("Браузер ждет клика для запуска музыки");
-        });
-    } else {
+        audio.play().catch(e => console.log("Нужен клик для звука"));
+    }
+// 2. Если прервали (хотя бы одна закрыта) — ставим на паузу
+    else {
         audio.pause();
+    }
+
+// 3. ЛОГИКА СБРОСА: если обе створки закрыты — перематываем в начало
+// Теперь при следующем полном открытии музыка заиграет сначала
+    if (!isLeftOpen && !isRightOpen) {
+        audio.currentTime = 0;
     }
 }
 
